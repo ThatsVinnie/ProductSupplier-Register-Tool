@@ -32,6 +32,14 @@ namespace UI
                 return;
             }
 
+            // Validando se há duplicidade de CNPJ no sistema
+            if (ValidateSupplierCnpj())
+            {
+                MessageBox.Show("Cnpj already registered, it must be unique!");
+                txtCnpj.Text = oldCnpj;
+                return;
+            }
+
             if (Services.SupplierServices.UpdateSupplier(txtName.Text, txtCnpj.Text, txtMail.Text, idSupplier))
             {
                 MessageBox.Show("Supplier has been succesfully updated");
@@ -55,6 +63,12 @@ namespace UI
                 return true;
             }
             return false;
+        }
+
+        private bool ValidateSupplierCnpj()
+        {
+            bool response = Services.SupplierServices.ValidateSupplierCnpj(txtCnpj.Text);
+            return response;
         }
     }
 }

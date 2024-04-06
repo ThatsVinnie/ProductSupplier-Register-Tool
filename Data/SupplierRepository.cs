@@ -53,7 +53,41 @@ namespace Data
             }
         }
 
-        // métodos CRUD
+        // Método para validar duplicidade de CNPJ no sistema
+        public static bool ValidateSupplierCnpj(string cnpj)
+        {
+            using(var connect = new MySqlConnection(GetConnectionString()))
+            {
+                string query = "SELECT COUNT(*) FROM supplier WHERE cnpj=@cnpj";
+                
+                var command = new MySqlCommand(query, connect);
+
+                command.Parameters.AddWithValue("@cnpj", cnpj);
+
+                try
+                {
+                    connect.Open();
+                    
+                    int equalCnpj = Convert.ToInt32(command.ExecuteScalar());
+
+                    if(equalCnpj > 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                catch
+                {
+                    return true;
+                }
+                finally
+                {
+                    connect.Close();
+                }
+            }
+        }
+
+        // Métodos CRUD
         public static bool Create(Supplier supplier)
         {
 

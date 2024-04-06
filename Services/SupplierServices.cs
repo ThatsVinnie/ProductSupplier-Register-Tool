@@ -57,5 +57,14 @@ namespace Services
         {
             return Data.SupplierRepository.FillComboBox();
         }
+
+        public static bool ValidateSupplierCnpj(string _cnpj)
+        {
+            if (Data.SupplierRepository.ValidateSupplierCnpj(_cnpj))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
